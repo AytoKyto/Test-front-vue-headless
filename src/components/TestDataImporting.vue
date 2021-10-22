@@ -1,8 +1,18 @@
 <template>
-  <div @click="log" class="hello">
+  <div class="hello">
     <div v-for="text of posts.edges" :key="text.id">
       {{ text.node.composant.custom }}
     </div>
+    <br />
+    <br />
+    <br />
+    {{ this.alignementCustom }}
+    <br />
+    <br />
+    <p :style="textStyle">
+      loredsm ipsudsm dodslor sidst amdset, consectdsetur,lordsem ipsdsum
+      dosdlor sit am
+    </p>
   </div>
 </template>
 
@@ -13,32 +23,11 @@ export default {
   name: "TestDataImporting",
   data() {
     return {
-      posts: null,
-      dataOne: null,
-      dataTwo: null,
-      mapp: null,
-      mapUse: null,
-      result: null,
+      posts: [],
+      alignementCustom: null,
     };
   },
-  methods: {
-    log: function () {
-      //console.log(this.posts);
-      this.mapp = this.posts.edges
-      // Set var i
-      var i;
-      // Create for
-      for (i = 0; i < this.posts.edges.length; i++) {
-        // add your script
-        this.dataOne = this.posts.edges[i].node.composant.custom;
-        console.log(this.dataOne);
-          this.dataTwo = this.dataOne[0].alignement;
-          this.result = this.dataOne[0].titre;
-          console.log(this.dataTwo);
-          console.log(this.result);
-        }
-    },
-  },
+  methods: {},
   apollo: {
     posts: gql`
       query {
@@ -59,6 +48,21 @@ export default {
         }
       }
     `,
+  },
+  computed: {
+    textStyle() {
+      return {
+        textAlign: this.alignementCustom,
+      };
+    },
+  },
+  updated() {
+    console.log("creat");
+    var i;
+    for (i = 0; i < this.posts.edges.length; i++) {
+      this.alignementCustom =
+        this.posts.edges[i].node.composant.custom[0].alignement;
+    }
   },
 };
 </script>
